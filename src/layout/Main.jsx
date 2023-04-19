@@ -5,6 +5,7 @@ import {Preloader} from "../components/Preloader";
 import {Search} from "../components/Search";
 
 const API_KEY=process.env.REACT_APP_API_KEY
+
 class Main extends Component {
     state={
         movies: [],
@@ -12,15 +13,23 @@ class Main extends Component {
     }
     componentDidMount() {
         console.log('process.env')
-        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=recipe`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=peppa pig`)
             .then(response=>response.json())
             .then(data=>this.setState({movies:data.Search,loading:false}))
+            .catch((err)=>{
+                console.error(err)
+                this.setState({loading:false})
+            })
     }
  searchMovies=(str,type='all')=>{
         this.setState({loading:true})
-     fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${type !=='all'? `&type=${type}`: ''}`)
+     fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${str}${type !=='all'? `&type=${type}`: ''}`)
          .then(response=>response.json())
          .then(data=>this.setState({movies:data.Search,loading:false}))
+         .catch((err)=>{
+             console.error(err)
+             this.setState({loading:false})
+         })
  }
 
     render() {
